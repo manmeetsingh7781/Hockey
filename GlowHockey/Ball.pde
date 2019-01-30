@@ -1,18 +1,22 @@
 class Ball extends CPU {
   
-  int radius = 40;
-  float x, y, movementX = 5, movementY = 5;
+  int radius;
+  float x, y, movementX = 15, movementY = 15;
   
 public Ball(int x, int y, int radius) {
   super(x, y, radius);
   this.y = screen_height/2;
   this.x = screen_width/2;
+  this.radius = radius;
 }
+
 
 @Override
 public void setupPlayer(){
+  
   fill(0, 255, 0);
-  ellipse(this.x, this.y, this.radius, this.radius);
+  circle(this.x, this.y, this.radius);
+
 }
 
 
@@ -24,46 +28,25 @@ public void updatePlayer(){
 
 
    
-  if(this.y >= screen_height || this.y <= 0) {
-    this.movementY = -this.movementY;
+  if(this.y >= screen_height-10 || this.y <= 0) {
+    this.movementY = -(this.movementY);
   }
   
-  if(this.x >= screen_width || this.x <= 0 ){
-      this.movementX = -this.movementX;
+  if(this.x >= screen_width-10 || this.x <= 0 ){
+      this.movementX = -(this.movementX);
   }
 
-  if(crashWith(myPlayer)){
-     this.movementY = -this.movementY;
-      if(this.movementX >0){
-            this.movementX = -this.movementX;
-      }else{
-            this.movementX = +this.movementX;
-      }
+  if(this.x <= 0+10){
+  this.x = 10;
+  
   }
-  
-  
-  
+if(this.x >= screen_width-10){
+this.x = screen_width-10;
 }
-
-public boolean crashWith(Player otherObj) {
-        float myleft = this.x;
-        float myright = this.x + (this.radius);
-        
-        float mytop = this.y;
-        float mybottom = this.y + (this.radius);
-        
-        float otherleft = otherObj.x;
-        float otherright = otherObj.x + (otherObj.radius);
-        
-        float othertop = otherObj.y;
-        float otherbottom = otherObj.y + (otherObj.radius);
-        
-        boolean crash = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crash = false;
-        }
-        return crash;
-    }
+if(crashWith(ball, upSidepole) || crashWith(ball, downSidepole)){
+  noLoop();
+}
+} 
 
 
 }
